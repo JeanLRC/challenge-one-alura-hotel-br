@@ -1,4 +1,4 @@
-package views;
+package main.java.br.com.alura.forum.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

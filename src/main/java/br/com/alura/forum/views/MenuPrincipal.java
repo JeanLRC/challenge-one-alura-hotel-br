@@ -1,4 +1,4 @@
-package views;
+package main.java.br.com.alura.forum.views;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;

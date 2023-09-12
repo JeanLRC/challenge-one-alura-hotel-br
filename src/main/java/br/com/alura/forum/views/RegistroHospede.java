@@ -1,29 +1,22 @@
-package views;
+package main.java.br.com.alura.forum.views;
 
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import main.java.br.com.alura.forum.controller.HospedeController;
+import main.java.br.com.alura.forum.controller.ReservaController;
+import main.java.br.com.alura.forum.model.Hospede;
+
 import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import java.awt.SystemColor;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
 import java.text.Format;
-import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
 public class RegistroHospede extends JFrame {
@@ -39,6 +32,9 @@ public class RegistroHospede extends JFrame {
 	private JLabel labelAtras;
 	int xMouse, yMouse;
 
+	private HospedeController hospedeController;
+	private ReservaController reservaController;
+
 	/**
 	 * Launch the application.
 	 */
@@ -46,7 +42,7 @@ public class RegistroHospede extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroHospede frame = new RegistroHospede();
+					RegistroHospede frame = new RegistroHospede(0L);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,7 +54,9 @@ public class RegistroHospede extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegistroHospede() {
+	public RegistroHospede(Long idReserva) {
+		this.hospedeController = new HospedeController();
+		this.reservaController = new ReservaController();
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistroHospede.class.getResource("/imagenes/lOGO-50PX.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -241,6 +239,7 @@ public class RegistroHospede extends JFrame {
 		txtNreserva.setColumns(10);
 		txtNreserva.setBackground(Color.WHITE);
 		txtNreserva.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtNreserva.setText(idReserva.toString());
 		contentPane.add(txtNreserva);
 		
 		JSeparator separator_1_2 = new JSeparator();
@@ -284,6 +283,7 @@ public class RegistroHospede extends JFrame {
 		btnsalvar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				salvarHospede();
 			}
 		});
 		btnsalvar.setLayout(null);
@@ -326,5 +326,18 @@ public class RegistroHospede extends JFrame {
 	        int y = evt.getYOnScreen();
 	        this.setLocation(x - xMouse, y - yMouse);
 }
-											
+
+		private void salvarHospede() {
+			if (txtDataN.getDate() != null && !txtNome.equals("") && !txtSobrenome.equals("") && !txtTelefone.equals("")) {
+				String dataNascimento = ((JTextField) txtDataN.getDateEditor().getUiComponent()).getText();
+				Long nReserva = Long.parseLong(txtNreserva.getText());
+				Hospede hospedes = new Hospede(txtNome.getText(), txtSobrenome.getText(), Date.valueOf(dataNascimento), txtNacionalidade.getSelectedItem().toString(), txtTelefone.getText(), nReserva);
+				this.hospedeController.salvar(hospedes);
+				Sucesso sucesso = new Sucesso();
+				sucesso.setVisible(true);
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(this, "Você deve preencher todos os campos.");
+			}
+		}
 }
