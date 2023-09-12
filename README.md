@@ -40,7 +40,7 @@
 ## 🔍 Analisando nosso repositório!
 
 ### Este é o repositório base do nosso projeto, nele você encontrará:
-#### 🔹 src/views: pasta com toda a interface gráfica das telas necessárias para desenvolver o programa;
+#### 🔹 src/main.java.br.com.alura.forum.views: pasta com toda a interface gráfica das telas necessárias para desenvolver o programa;
 #### 🔹 src/imagens: pasta com imagens que você pode utilizar em seu projeto. Sinta-se a vontade para utilizar outras, caso deseje.
 </br>
 
